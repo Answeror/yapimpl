@@ -1,0 +1,7 @@
+*.swp
+*.un~
+conf.bat
+conf.*.bat
+.clang_complete
+
+build*/
