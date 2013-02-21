@@ -14,6 +14,10 @@
 
 #include <memory> // unique_ptr
 
+#include "use_default_ctor.hpp"
+#include "delay_method.hpp"
+#include "access_fwd.hpp"
+
 namespace yapimpl
 {
     /**
@@ -21,28 +25,6 @@ namespace yapimpl
      *
      * @tparam Impl
      */
-    template<class Impl>
-    class unique;
-
-    namespace detail
-    {
-        /**
-         * @brief Act as placeholder.
-         *
-         * @tparam Dummy Just to make this class dependent on template argument.
-         */
-        template<class Dummy>
-        struct use_default_ctor {};
-
-        template<class Impl, class Dummy>
-        struct delay_method
-        {
-            typedef typename Impl::method type;
-        };
-    }
-
-    typedef detail::use_default_ctor<void> use_default_ctor;
-
     template<class Impl>
     class unique
     {

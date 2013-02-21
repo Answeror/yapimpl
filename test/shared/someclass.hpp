@@ -14,9 +14,12 @@ public:
 
 public:
     int neg() const;
+    int outside_neg() const;
     void set(int x);
+    void outside_set(int x);
 
 private:
+    friend class yapimpl::access<someclass>;
     struct impl;
     yapimpl::shared<impl> m;
 };

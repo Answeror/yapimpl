@@ -7,9 +7,15 @@ BOOST_AUTO_TEST_CASE(t_shared)
 {
     someclass something;
     BOOST_REQUIRE_EQUAL(-42, something.neg());
+    BOOST_REQUIRE_EQUAL(-42, something.outside_neg());
     someclass another = something;
     BOOST_REQUIRE_EQUAL(-42, another.neg());
+    BOOST_REQUIRE_EQUAL(-42, another.outside_neg());
     something.set(24);
     BOOST_REQUIRE_EQUAL(-24, another.neg());
+    BOOST_REQUIRE_EQUAL(-24, another.outside_neg());
+    something.outside_set(13);
+    BOOST_REQUIRE_EQUAL(-13, another.neg());
+    BOOST_REQUIRE_EQUAL(-13, another.outside_neg());
 }
 

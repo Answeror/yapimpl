@@ -17,24 +17,10 @@
 #include <boost/type_traits/is_base_of.hpp>
 
 #include "unique.hpp"
+#include "cast.hpp"
 
 namespace yapimpl
 {
-    namespace traits
-    {
-        template<class Impl>
-        struct impl
-        {
-            typedef Impl type;
-        };
-
-        template<class Impl>
-        struct method
-        {
-            typedef typename Impl::method type;
-        };
-    }
-
     template<class Impl>
     template<class Dummy>
     unique<Impl>::unique(detail::use_default_ctor<Dummy>) :
@@ -77,11 +63,7 @@ namespace yapimpl
     const typename detail::delay_method<Impl, Host>::type*
         unique<Impl>::operator ()(const Host *host) const
     {
-        typedef typename traits::method<Impl>::type method;
-        static_assert(boost::is_base_of<Host, method>::value, "Method must derived from Host.");
-        static_assert(sizeof(method) == sizeof(Host), "Method cannot have member variable.");
-        BOOST_ASSERT(host);
-        return static_cast<const method*>(host);
+        return cast<Impl>(host);
     }
 
     template<class Impl>
@@ -89,12 +71,7 @@ namespace yapimpl
     typename detail::delay_method<Impl, Host>::type*
         unique<Impl>::operator ()(Host *host)
     {
-        typedef typename traits::method<Impl>::type method;
-        return const_cast<method*>(
-            (*boost::implicit_cast<const unique<Impl>*>(this))(
-                boost::implicit_cast<const Host*>(host)
-            )
-        );
+        return cast<Impl>(host);
     }
 }
 

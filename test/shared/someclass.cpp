@@ -5,6 +5,8 @@
 #define __E46B9F27_CB1C_4D98_8FE7_8CD296297367__
 
 #include <yapimpl/include/shared_impl.hpp>
+#include <yapimpl/include/outside.hpp>
+
 #include "someclass.hpp"
 
 struct someclass::impl
@@ -18,6 +20,11 @@ struct someclass::impl
         int neg(int x) const
         {
             return -x;
+        }
+
+        void _set(int x)
+        {
+            m->x = x;
         }
     };
 };
@@ -35,9 +42,21 @@ int someclass::neg() const
     return m(this)->neg(m->x);
 }
 
+int someclass::outside_neg() const
+{
+    return yapimpl::m(*this).neg(m->x);
+}
+
 void someclass::set(int x)
 {
-    m->x = x;
+    // test nonconst method
+    m(this)->_set(x);
+}
+
+void someclass::outside_set(int x)
+{
+    // test nonconst method
+    yapimpl::m(*this)._set(x);
 }
 
 #endif // __E46B9F27_CB1C_4D98_8FE7_8CD296297367__
