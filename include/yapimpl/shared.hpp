@@ -31,7 +31,9 @@ namespace yapimpl
         shared(detail::use_default_ctor<Dummy>);
 
         template<class A1>
-        shared(A1 &&a1);
+#define restrict_to(x) typename std::enable_if<x>::type *dummy = 0
+        shared(A1 &&a1, restrict_to((std::is_convertible<A1, Impl>::value)));
+#undef restrict_to
 
         template<class A1, class A2>
         shared(A1 &&a1, A2 &&a2);
@@ -52,6 +54,8 @@ namespace yapimpl
             operator ()(Host *host);
 
         void reset(Impl *impl);
+
+        this_type clone() const;
 
     private:
         std::shared_ptr<impl> m;

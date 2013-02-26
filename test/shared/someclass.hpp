@@ -17,6 +17,7 @@ public:
     int outside_neg() const;
     void set(int x);
     void outside_set(int x);
+    someclass clone() const;
 
 private:
     friend class yapimpl::access<someclass>;

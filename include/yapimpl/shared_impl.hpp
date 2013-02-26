@@ -5,6 +5,7 @@
 #define __3EA2762B_2C55_4FE7_A670_694D2A9262E2__
 
 #include <boost/assert.hpp>
+#include <boost/swap.hpp>
 #include <boost/implicit_cast.hpp>
 #include <boost/type_traits/is_base_of.hpp>
 
@@ -20,7 +21,9 @@ namespace yapimpl
 
     template<class Impl>
     template<class A1>
-    shared<Impl>::shared(A1 &&a1) :
+#define restrict_to(x) typename std::enable_if<x>::type *dummy = 0
+    shared<Impl>::shared(A1 &&a1, restrict_to((std::is_convertible<A1, Impl>::value))) :
+#undef restrict_to
         m(new impl(
             std::forward<A1>(a1)
             )) {}
@@ -32,7 +35,7 @@ namespace yapimpl
             std::forward<A1>(a1),
             std::forward<A2>(a2)
             )) {}
-     
+
     template<class Impl>
     shared<Impl>::~shared() {}
      
@@ -70,6 +73,14 @@ namespace yapimpl
     inline void shared<Impl>::reset(Impl *impl)
     {
         m.reset(impl);
+    }
+
+    template<class Impl>
+    inline shared<Impl> shared<Impl>::clone() const
+    {
+        this_type res = *this;
+        res.m.reset(new Impl(*m));
+        return res;
     }
 }
 

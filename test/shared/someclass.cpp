@@ -59,4 +59,11 @@ void someclass::outside_set(int x)
     yapimpl::m(*this)._set(x);
 }
 
+someclass someclass::clone() const
+{
+    someclass res;
+    res.m = m.clone();
+    return res;
+}
+
 #endif // __E46B9F27_CB1C_4D98_8FE7_8CD296297367__
