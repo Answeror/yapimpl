@@ -20,9 +20,6 @@ namespace yapimpl
     template<class Impl>
     class shared
     {
-    protected:
-        typedef Impl impl;
-
     private:
         typedef shared this_type;
 
@@ -41,24 +38,24 @@ namespace yapimpl
         ~shared();
 
     public:
-        const impl* operator->() const;
+        const Impl* operator->() const;
 
-        impl* operator->();
+        Impl* operator->();
 
         template<class Host>
-        const typename detail::delay_method<impl, Host>::type*
+        const typename detail::delay_method<Impl, Host>::type*
             operator ()(const Host *host) const;
 
         template<class Host>
-        typename detail::delay_method<impl, Host>::type*
+        typename detail::delay_method<Impl, Host>::type*
             operator ()(Host *host);
 
-        void reset(Impl *impl);
+        void reset(Impl *Impl);
 
         this_type clone() const;
 
     private:
-        std::shared_ptr<impl> m;
+        std::shared_ptr<Impl> m;
     };
 }
 

@@ -17,21 +17,21 @@ namespace yapimpl
     template<class Impl>
     template<class Dummy>
     shared<Impl>::shared(detail::use_default_ctor<Dummy>) :
-        m(new impl()) {}
+        m(new Impl()) {}
 
     template<class Impl>
     template<class A1>
 #define restrict_to(x) typename std::enable_if<x>::type *dummy = 0
     shared<Impl>::shared(A1 &&a1, restrict_to((std::is_convertible<A1, Impl>::value))) :
 #undef restrict_to
-        m(new impl(
+        m(new Impl(
             std::forward<A1>(a1)
             )) {}
  
     template<class Impl>
     template<class A1, class A2>
     shared<Impl>::shared(A1 &&a1, A2 &&a2) :
-        m(new impl(
+        m(new Impl(
             std::forward<A1>(a1),
             std::forward<A2>(a2)
             )) {}
@@ -40,14 +40,14 @@ namespace yapimpl
     shared<Impl>::~shared() {}
      
     template<class Impl>
-    inline typename const shared<Impl>::impl*
+    inline const Impl*
         shared<Impl>::operator->() const
     {
         return m.get();
     }
 
     template<class Impl>
-    inline typename shared<Impl>::impl*
+    inline Impl*
         shared<Impl>::operator->()
     {
         return m.get();

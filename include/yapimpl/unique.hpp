@@ -28,9 +28,6 @@ namespace yapimpl
     template<class Impl>
     class unique
     {
-    protected:
-        typedef Impl impl;
-
     private:
         typedef unique this_type;
 
@@ -47,20 +44,20 @@ namespace yapimpl
         ~unique();
 
     public:
-        const impl* operator->() const;
+        const Impl* operator->() const;
 
-        impl* operator->();
+        Impl* operator->();
 
         template<class Host>
-        const typename detail::delay_method<impl, Host>::type*
+        const typename detail::delay_method<Impl, Host>::type*
             operator ()(const Host *host) const;
 
         template<class Host>
-        typename detail::delay_method<impl, Host>::type*
+        typename detail::delay_method<Impl, Host>::type*
             operator ()(Host *host);
 
     private:
-        std::unique_ptr<impl> m;
+        std::unique_ptr<Impl> m;
     };
 }
 

@@ -24,19 +24,19 @@ namespace yapimpl
     template<class Impl>
     template<class Dummy>
     unique<Impl>::unique(detail::use_default_ctor<Dummy>) :
-        m(new impl()) {}
+        m(new Impl()) {}
 
     template<class Impl>
     template<class A1>
     unique<Impl>::unique(A1 &&a1) :
-        m(new impl(
+        m(new Impl(
             std::forward<A1>(a1)
             )) {}
  
     template<class Impl>
     template<class A1, class A2>
     unique<Impl>::unique(A1 &&a1, A2 &&a2) :
-        m(new impl(
+        m(new Impl(
             std::forward<A1>(a1),
             std::forward<A2>(a2)
             )) {}
@@ -45,14 +45,14 @@ namespace yapimpl
     unique<Impl>::~unique() {}
      
     template<class Impl>
-    inline typename const unique<Impl>::impl*
+    inline const Impl*
         unique<Impl>::operator->() const
     {
         return m.get();
     }
 
     template<class Impl>
-    inline typename unique<Impl>::impl*
+    inline Impl*
         unique<Impl>::operator->()
     {
         return m.get();
