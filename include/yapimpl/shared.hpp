@@ -50,7 +50,7 @@ namespace yapimpl
         typename detail::delay_method<Impl, Host>::type*
             operator ()(Host *host);
 
-        void reset(Impl *Impl);
+        void reset(Impl *impl);
 
         this_type clone() const;
 

@@ -7,6 +7,14 @@ project(yapimpl CXX)
 # acmake {{{
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/acmake)
 include(acmake_boost_support)
+include(acmake_target_platform)
+# }}}
+
+# platform {{{
+acmake_target_platform()
+if(ACMAKE_TARGET_PLATFORM_ANDROID)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+endif()
 # }}}
 
 # output path {{{

@@ -21,7 +21,7 @@ namespace yapimpl
 
     template<class Impl>
     template<class A1>
-#define restrict_to(x) typename std::enable_if<x>::type *dummy = 0
+#define restrict_to(x) typename std::enable_if<x>::type *dummy
     shared<Impl>::shared(A1 &&a1, restrict_to((std::is_convertible<A1, Impl>::value))) :
 #undef restrict_to
         m(new Impl(

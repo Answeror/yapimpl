@@ -12,20 +12,20 @@
 namespace yapimpl
 {
     template<class Impl, class Host>
-    inline const typename impl_traits::method<Impl>::type* cast_impl(const Host *host, const boost::false_type&)
-    {
-        typedef typename impl_traits::method<Impl>::type method;
-        typedef typename method::base base;
-        return cast_impl<Impl>(boost::implicit_cast<const base*>(host), boost::is_base_of<base, method>());
-    }
-
-    template<class Impl, class Host>
     inline const typename impl_traits::method<Impl>::type* cast_impl(const Host *host, const boost::true_type&)
     {
         typedef typename impl_traits::method<Impl>::type method;
         static_assert(boost::is_base_of<Host, method>::value, "Method must derived from Host.");
         static_assert(sizeof(method) == sizeof(Host), "Method cannot have member variable.");
         return static_cast<const method*>(host);
+    }
+
+    template<class Impl, class Host>
+    inline const typename impl_traits::method<Impl>::type* cast_impl(const Host *host, const boost::false_type&)
+    {
+        typedef typename impl_traits::method<Impl>::type method;
+        typedef typename method::base base;
+        return cast_impl<Impl>(boost::implicit_cast<const base*>(host), boost::is_base_of<base, method>());
     }
 
     template<class Impl, class Host>

@@ -29,14 +29,14 @@ namespace yapimpl
         }
 
         template<class Host>
-        typename const method<Host>::type* mpc(const Host *host)
+        const typename method<Host>::type* mpc(const Host *host)
         {
             return cast<typename host_traits::impl<Host>::type>(host);
         }
     }
 
     template<class Host>
-    typename const outside_detail::method<Host>::type* m(const Host *host)
+    const typename outside_detail::method<Host>::type* m(const Host *host)
     {
         return outside_detail::mpc(host);
     }
@@ -48,7 +48,7 @@ namespace yapimpl
     }
 
     template<class Host>
-    typename const outside_detail::method<Host>::type& m(const Host &host)
+    const typename outside_detail::method<Host>::type& m(const Host &host)
     {
         return *outside_detail::mpc(&host);
     }
