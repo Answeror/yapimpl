@@ -15,6 +15,10 @@
 namespace yapimpl
 {
     template<class Impl>
+    template<class T>
+    shared<Impl>::shared(const shared<T> &other) : m(other.m) {}
+
+    template<class Impl>
     template<class Dummy>
     shared<Impl>::shared(detail::use_default_ctor<Dummy>) :
         m(new Impl()) {}

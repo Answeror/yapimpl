@@ -22,6 +22,10 @@
 namespace yapimpl
 {
     template<class Impl>
+    template<class T>
+    unique<Impl>::unique(const unique<T> &other) : m(other.m) {}
+
+    template<class Impl>
     template<class Dummy>
     unique<Impl>::unique(detail::use_default_ctor<Dummy>) :
         m(new Impl()) {}
