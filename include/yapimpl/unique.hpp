@@ -35,6 +35,8 @@ namespace yapimpl
         template<class T>
         unique(const unique<T> &other);
 
+        unique(this_type &&other);
+
         template<class Dummy>
         unique(detail::use_default_ctor<Dummy>);
 
@@ -58,6 +60,8 @@ namespace yapimpl
         template<class Host>
         typename detail::delay_method<Impl, Host>::type*
             operator ()(Host *host);
+
+        bool empty() const;
 
     private:
         template<class> friend class unique;

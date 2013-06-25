@@ -26,6 +26,9 @@ namespace yapimpl
     unique<Impl>::unique(const unique<T> &other) : m(other.m) {}
 
     template<class Impl>
+    unique<Impl>::unique(this_type &&other) : m(std::move(other.m)) {}
+
+    template<class Impl>
     template<class Dummy>
     unique<Impl>::unique(detail::use_default_ctor<Dummy>) :
         m(new Impl()) {}
@@ -76,6 +79,12 @@ namespace yapimpl
         unique<Impl>::operator ()(Host *host)
     {
         return cast<Impl>(host);
+    }
+
+    template<class Impl>
+    inline bool unique<Impl>::empty() const
+    {
+        return bool(m);
     }
 }
 
