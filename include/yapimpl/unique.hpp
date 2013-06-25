@@ -32,6 +32,9 @@ namespace yapimpl
         typedef unique this_type;
 
     public:
+        template<class T>
+        unique(const unique<T> &other);
+
         template<class Dummy>
         unique(detail::use_default_ctor<Dummy>);
 
@@ -57,6 +60,7 @@ namespace yapimpl
             operator ()(Host *host);
 
     private:
+        template<class> friend class unique;
         std::unique_ptr<Impl> m;
     };
 }

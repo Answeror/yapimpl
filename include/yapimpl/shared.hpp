@@ -24,6 +24,9 @@ namespace yapimpl
         typedef shared this_type;
 
     public:
+        template<class T>
+        shared(const shared<T> &other);
+
         template<class Dummy>
         shared(detail::use_default_ctor<Dummy>);
 
@@ -57,6 +60,7 @@ namespace yapimpl
         bool last() const;
 
     private:
+        template<class> friend class shared;
         std::shared_ptr<Impl> m;
     };
 }
