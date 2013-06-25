@@ -82,6 +82,12 @@ namespace yapimpl
         res.m.reset(new Impl(*m));
         return res;
     }
+
+    template<class Impl>
+    inline bool shared<Impl>::last() const
+    {
+        return m.use_count() == 1;
+    }
 }
 
 #endif // __3EA2762B_2C55_4FE7_A670_694D2A9262E2__

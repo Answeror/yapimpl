@@ -54,6 +54,8 @@ namespace yapimpl
 
         this_type clone() const;
 
+        bool last() const;
+
     private:
         std::shared_ptr<Impl> m;
     };
