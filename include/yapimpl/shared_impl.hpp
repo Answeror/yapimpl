@@ -16,6 +16,14 @@ namespace yapimpl
 {
     template<class Impl>
     template<class T>
+    shared<Impl>::shared(shared<T> &&other) : m(std::move(other.m)) {}
+
+    template<class Impl>
+    template<class T>
+    shared<Impl>::shared(shared<T> &other) : m(other.m) {}
+
+    template<class Impl>
+    template<class T>
     shared<Impl>::shared(const shared<T> &other) : m(other.m) {}
 
     template<class Impl>
@@ -25,8 +33,8 @@ namespace yapimpl
 
     template<class Impl>
     template<class A1>
-#define restrict_to(x) typename std::enable_if<x>::type *dummy
-    shared<Impl>::shared(A1 &&a1, restrict_to((std::is_convertible<A1, Impl>::value))) :
+#define restrict_to(x) typename std::enable_if<!x>::type *dummy
+    shared<Impl>::shared(A1 &&a1, restrict_to((std::is_same<typename std::decay<A1>::type, detail::use_default_ctor<void> >::value))) :
 #undef restrict_to
         m(new Impl(
             std::forward<A1>(a1)

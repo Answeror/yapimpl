@@ -25,14 +25,20 @@ namespace yapimpl
 
     public:
         template<class T>
+        shared(shared<T> &&other);
+
+        template<class T>
+        shared(shared<T> &other);
+
+        template<class T>
         shared(const shared<T> &other);
 
         template<class Dummy>
         shared(detail::use_default_ctor<Dummy>);
 
         template<class A1>
-#define restrict_to(x) typename std::enable_if<x>::type *dummy = 0
-        shared(A1 &&a1, restrict_to((std::is_convertible<A1, Impl>::value)));
+#define restrict_to(x) typename std::enable_if<!x>::type *dummy = 0
+        shared(A1 &&a1, restrict_to((std::is_same<typename std::decay<A1>::type, detail::use_default_ctor<void> >::value)));
 #undef restrict_to
 
         template<class A1, class A2>
