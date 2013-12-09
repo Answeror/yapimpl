@@ -4,21 +4,14 @@ cmake_minimum_required(VERSION 2.8.12.1)
 
 project(yapimpl CXX)
 
-# C++11 {{{
-if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
-# }}}
-
 # acmake {{{
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/acmake)
 include(acmake_boost_support)
 include(acmake_target_platform)
 # }}}
 
-# platform {{{
-acmake_target_platform()
-if(ACMAKE_TARGET_PLATFORM_ANDROID)
+# C++11 {{{
+if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif()
 # }}}
