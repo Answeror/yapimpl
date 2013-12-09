@@ -1,0 +1,29 @@
+include(acmake_parse_arguments)
+
+function(acmake_fill_working_directory WORKING_DIRECTORY)
+    parse_arguments(
+        ""
+        "TARGET"
+        ""
+        ${ARGN}
+        )
+    set(${WORKING_DIRECTORY}_DEBUG "" PARENT_SCOPE)
+    set(${WORKING_DIRECTORY}_RELEASE "" PARENT_SCOPE)
+    if(NOT ${WORKING_DIRECTORY})
+        if(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+            if(CMAKE_BUILD_TYPE MATCHES Debug)
+                set(${WORKING_DIRECTORY}_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} PARENT_SCOPE)
+            elseif(CMAKE_BUILD_TYPE MATCHES Release)
+                set(${WORKING_DIRECTORY}_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} PARENT_SCOPE)
+            endif()
+        endif()
+        if(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG)
+            set(${WORKING_DIRECTORY}_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} PARENT_SCOPE)
+        elseif(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE)
+            set(${WORKING_DIRECTORY}_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} PARENT_SCOPE)
+        endif()
+    else()
+        set(${WORKING_DIRECTORY}_DEBUG ${WORKING_DIRECTORY} PARENT_SCOPE)
+        set(${WORKING_DIRECTORY}_RELEASE ${WORKING_DIRECTORY} PARENT_SCOPE)
+    endif()
+endfunction()
