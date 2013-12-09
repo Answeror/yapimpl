@@ -34,19 +34,22 @@ namespace yapimpl
     template<class Impl>
     template<class A1>
 #define restrict_to(x) typename std::enable_if<!x>::type *dummy
-    shared<Impl>::shared(A1 &&a1, restrict_to((std::is_same<typename std::decay<A1>::type, detail::use_default_ctor<void> >::value))) :
+    shared<Impl>::shared(A1 &&a1, restrict_to(traits::is_default_ctor<A1>::value)) :
 #undef restrict_to
         m(new Impl(
             std::forward<A1>(a1)
             )) {}
  
-    template<class Impl>
-    template<class A1, class A2>
-    shared<Impl>::shared(A1 &&a1, A2 &&a2) :
-        m(new Impl(
-            std::forward<A1>(a1),
-            std::forward<A2>(a2)
-            )) {}
+#define FORWARD(z, n, unused) std::forward<A##n>(a##n)
+#define _(z, n, unused)\
+    template<class Impl>\
+    template<BOOST_PP_ENUM_PARAMS(n, class A)>\
+    shared<Impl>::shared(BOOST_PP_ENUM_BINARY_PARAMS(n, A, &&a)) :\
+        m(new Impl(BOOST_PP_ENUM(n, FORWARD, ~))) {}
+
+        BOOST_PP_REPEAT_FROM_TO(2, 10, _, ~)
+#undef _
+#undef FORWARD
 
     template<class Impl>
     shared<Impl>::~shared() {}

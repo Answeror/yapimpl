@@ -5,10 +5,12 @@
 #define __0A5AC748_BE03_4148_B706_A09E0E7F7FC5__
 
 #include <boost/shared_ptr.hpp>
+#include <boost/preprocessor/repetition.hpp>
 
 #include "use_default_ctor.hpp"
 #include "delay_method.hpp"
 #include "access_fwd.hpp"
+#include "traits.hpp"
 
 namespace yapimpl
 {
@@ -37,12 +39,16 @@ namespace yapimpl
         shared(detail::use_default_ctor<Dummy>);
 
         template<class A1>
-#define restrict_to(x) typename std::enable_if<!x>::type *dummy = 0
-        shared(A1 &&a1, restrict_to((std::is_same<typename std::decay<A1>::type, detail::use_default_ctor<void> >::value)));
+#define restrict_to(x) typename std::enable_if<!(x)>::type *dummy = 0
+        shared(A1 &&a1, restrict_to(traits::is_default_ctor<A1>::value));
 #undef restrict_to
 
-        template<class A1, class A2>
-        shared(A1 &&a1, A2 &&a2);
+#define _(z, n, unused)\
+        template<BOOST_PP_ENUM_PARAMS(n, class A)>\
+        shared(BOOST_PP_ENUM_BINARY_PARAMS(n, A, &&a));
+
+        BOOST_PP_REPEAT_FROM_TO(2, 10, _, ~)
+#undef _
 
         ~shared();
 
