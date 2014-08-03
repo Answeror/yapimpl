@@ -26,6 +26,8 @@ namespace yapimpl
         typedef shared this_type;
 
     public:
+        shared(Impl *impl);
+
         template<class T>
         shared(shared<T> &&other);
 

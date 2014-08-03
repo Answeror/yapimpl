@@ -15,6 +15,9 @@
 namespace yapimpl
 {
     template<class Impl>
+    shared<Impl>::shared(Impl *impl) : m(impl) {}
+
+    template<class Impl>
     template<class T>
     shared<Impl>::shared(shared<T> &&other) : m(std::move(other.m)) {}
 
