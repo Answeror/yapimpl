@@ -73,6 +73,10 @@ namespace yapimpl
 
         bool last() const;
 
+        friend bool operator ==(const this_type &lhs, const this_type &rhs) {
+            return lhs.m == rhs.m;
+        }
+
     private:
         template<class> friend class shared;
         std::shared_ptr<Impl> m;
