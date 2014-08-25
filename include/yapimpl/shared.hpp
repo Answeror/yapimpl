@@ -77,6 +77,8 @@ namespace yapimpl
             return lhs.m == rhs.m;
         }
 
+        const Impl* id() const { return m.get(); }
+
     private:
         template<class> friend class shared;
         std::shared_ptr<Impl> m;
