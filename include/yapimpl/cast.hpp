@@ -6,6 +6,7 @@
 
 #include <type_traits>
 
+#include <boost/assert.hpp>
 #include <boost/implicit_cast.hpp>
 
 #include "impl_traits.hpp"
