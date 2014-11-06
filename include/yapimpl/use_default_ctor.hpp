@@ -19,7 +19,7 @@ namespace yapimpl
 
     namespace
     {
-        const detail::use_default_ctor<void> use_default_ctor;
+        const detail::use_default_ctor<void> use_default_ctor = {};
     }
 }
 
